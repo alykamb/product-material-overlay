@@ -41,7 +41,7 @@
 				}
 			?>
 			<br>
-			<label>Categorias Padrão:</label><br>
+			<h3>Categorias Padrão:</h3><br>
 			<div class="pms-categories">
 				<?php 
 					foreach ($categories as $category) {

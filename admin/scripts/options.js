@@ -2,7 +2,7 @@ export default function ($) {
 	if ($('.pms-options-form').length) {
 		const newCat = $('#new-category');
 		
-		function addCategory(category) {
+		const addCategory = (category) => {
 			const element = `
 			<div class="cat">
 			<div class="handle"><span class="dashicons dashicons-sort"></span></div>
@@ -10,8 +10,7 @@ export default function ($) {
 			<button class="remove"  type="button"><span class="dashicons dashicons-trash"></span></button>
 			</div>`;
 			$('.pms-categories').append(element);
-		}	
-		
+		};		
 		
 		newCat.on('blur keydown', e => {
 			const {value} = e.target;
@@ -29,6 +28,6 @@ export default function ($) {
 		
 		$('.pms-categories').on('click', ' .remove', function() {
 			$(this).parent().remove();
-		})
+		});
 	}
 }
