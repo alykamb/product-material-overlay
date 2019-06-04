@@ -12,19 +12,7 @@ add_menu_page(
 
 function product_menu() {
 
-	if (isset($_POST['posttype'])) {
-		$value = $_POST['posttype'];
-		update_option('pms-posttype', $value);
-	}
-
-	$args = array(
-   'public'   => true
-	);
-	$output = 'objects';
-
-	$post_types = get_post_types( $args, $output ); 	
-
-	$value = get_option('pms-posttype', []);
+	wp_enqueue_script( 'jquery-ui-sortable' );
 
 	include 'options-form.php';
 }
@@ -45,7 +33,17 @@ function add_gallery()
 }
 
 function gallery_content() {
-	echo '<h3>Hello There</h3>';
+	wp_enqueue_media();
+
+	include 'gallery.php';
 }
 
 add_action('add_meta_boxes', 'add_gallery');
+
+function pms_enqueue_scripts() {  
+		wp_register_style( 'pms_admin_style', plugins_url() . '/product-material-selection' . '/admin/style.css', false);
+		wp_enqueue_style( 'pms_admin_style' );
+
+    wp_enqueue_script( 'pms_admin_script', plugins_url() . '/product-material-selection' . '/admin/script.js' );
+}
+add_action( 'admin_enqueue_scripts', 'pms_enqueue_scripts' );
