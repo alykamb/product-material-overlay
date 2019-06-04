@@ -1,5 +1,5 @@
 export default function ($) {	
-	if ($('.pms-options-form').length) {
+	if ($('.pms_options-form').length) {
 		const newCat = $('#new-category');
 		
 		const addCategory = (category) => {
@@ -9,7 +9,7 @@ export default function ($) {
 			<input type="text" name="category[]" id="category-${category}" value="${category}"> 
 			<button class="remove"  type="button"><span class="dashicons dashicons-trash"></span></button>
 			</div>`;
-			$('.pms-categories').append(element);
+			$('.pms_categories').append(element);
 		};		
 		
 		newCat.on('blur keydown', e => {
@@ -22,11 +22,11 @@ export default function ($) {
 			}		
 		});
 		
-		$('.pms-categories').sortable({
+		$('.pms_categories').sortable({
 			handle: ".handle"
 		});
 		
-		$('.pms-categories').on('click', ' .remove', function() {
+		$('.pms_categories').on('click', ' .remove', function() {
 			$(this).parent().remove();
 		});
 	}

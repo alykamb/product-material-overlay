@@ -1,20 +1,56 @@
-.pms-options-form {
-	.pms-categories {
+.pms_options-form {
+	.pms_categories {
 		.cat {
 			display: grid;
 			grid-template-columns: 45px 200px 45px;
 			grid-gap: .3em;
 			margin: .5em 0;
 
-			.handle {
-				margin: 3px;
-				background-color: #ccc;
+			
+		}
+	}
+}
+
+#pms {
+	.handle {
+		margin: 3px;
+		background-color: #ccc;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-radius: 4px;
+		cursor: grab;
+	}
+}
+
+#pms .overlay-gallery {
+	.cat {
+		margin: .5em;
+		border: 1px solid #ccc;
+		background-color: #fff;
+
+		.topbar {
+			display: grid;
+			grid-template-columns: 45px 1fr 45px 45px;
+			grid-gap: .3em;
+			border-bottom: 1px solid #ccc;
+
+			.toggler-wrapper,
+			.remove-wrapper {
 				display: flex;
 				justify-content: center;
 				align-items: center;
-				border-radius: 4px;
-				cursor: grab;
-			}	
+			}
+		}
+
+		.cotent {
+			padding: 1em;
+			display: flex;
+			flex-wrap: wrap;
+		}
+
+		.button	{
+			margin: .5em;
 		}
 	}
 }

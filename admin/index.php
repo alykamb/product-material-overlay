@@ -11,7 +11,6 @@ add_menu_page(
 );
 
 function product_menu() {
-
 	wp_enqueue_script( 'jquery-ui-sortable' );
 
 	include 'options-form.php';
@@ -19,10 +18,10 @@ function product_menu() {
 
 function add_gallery()
 {	
-	$screens = get_option('pms-posttype', []);
+	$screens = get_option('pms_posttype', []);
 
 	add_meta_box(
-		'pms-gallery',           // Unique ID
+		'pms_gallery',           // Unique ID
 		'Galeria do Produto',  // Box title
 		'gallery_content',  // Content callback, must be of type callable
 		$screens,                  // Post type
@@ -32,8 +31,9 @@ function add_gallery()
 	
 }
 
-function gallery_content() {
+function gallery_content($post) {
 	wp_enqueue_media();
+	wp_enqueue_script( 'jquery-ui-sortable' );
 
 	include 'gallery.php';
 }
