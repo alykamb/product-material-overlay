@@ -138,6 +138,26 @@
 			</div>
 		</div> -->
 	</div>
+	<hr>
+	<div class="gallery">
+		<h3>Galeria</h3><br>
+		<small>Outras imagens do produto, sem sobreposição:</small>
+		<div class="gallery-images">
+		<?php if($gallery): ?>
+			<?php foreach ($gallery as $gImage): ?>
+				<div class="image">
+					<img src="<?= $gImage['src']?>" alt="">
+					<button class="gallery-item-remove">
+						<span class="dashicons dashicons-trash"></span>
+					</button>
+					<input type="hidden" name="gallery-src[]" value="<?= $gImage['src']?>">
+					<input type="hidden" name="gallery-id[]" value="<?= $gImage['id']?>">
+				</div>
+			<?php endforeach; ?>
+		<?php endif; ?>
+		</div>
+		<button class="button add-gallery-images">Adicionar Imagens</button>
+	</div>
 	<!-- <div class='image-preview-wrapper'>
 		<img id='image-preview' src='' width='100' height='100' style='max-height: 100px; width: 100px;'>
 	</div>

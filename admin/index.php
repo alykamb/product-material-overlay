@@ -90,6 +90,20 @@ function save_pms_meta( $post_id, $post, $update ) {
 			} else {
 				delete_post_meta($post_id, 'pms_images');
 			}
+
+			$gallery = array();
+			for ($i=0; $i < count($_POST['gallery-src']); $i++) { 
+				$gallery[$i] = array(					
+					src => $_POST['gallery-src'][$i],
+					id => $_POST['gallery-id'][$i],
+				);
+			}
+
+			if ( count($gallery) > 0 ) {
+				update_post_meta($post_id, 'pms_gallery', $gallery);
+			} else {
+				delete_post_meta($post_id, 'pms_gallery');
+			}
 		}
     // // - Update the post's metadata.
 

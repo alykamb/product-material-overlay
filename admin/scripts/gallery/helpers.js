@@ -1,11 +1,11 @@
-export const getImageFromMedia = (id) => {
+export const getImageFromMedia = (id, multiple=false) => {
 	return new Promise((resolve, reject) => {
 		const file_frame = wp.media.frames.file_frame = wp.media({
 			title: 'Selecione uma imagem',
 			library: {
 				type: 'image' // limits the frame to show only images
 			},
-			multiple: false // Set to true to allow multiple files to be selected
+			multiple // Set to true to allow multiple files to be selected
 		});
 
 		if(id) {
