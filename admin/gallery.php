@@ -5,7 +5,17 @@
 	$gallery = get_post_meta($post->ID, 'pms_gallery', true);
 	$categories = get_post_meta($post->ID, 'pms_categories', true);
 	$images = get_post_meta($post->ID, 'pms_images', true);
+	$base_image_id = get_post_meta($post->ID, 'pms_base_image', true);
 
+
+
+	if($base_image_id) {
+		$base_image = array(
+			src => wp_get_attachment_url($base_image_id ),
+			id => $base_image_id
+		);
+	}
+ 	// var_dump(get_post_meta($post->ID, 'pms_base_image', true));
 	/**
 	 * images should be an array of objects:
 	 * {
@@ -17,27 +27,56 @@
 
 	function mapCategory($c)
 	{
-		return array(
+		$c = array(
 			name => $c,
-			enabled => true
 		);
+
+		return $c;
 	}
 
 	$cats = array_map("mapCategory", $default_categories);
 	if($categories) {
-		$cats = $categories;
+		$cats = array_map("mapCategory", $categories);
+	}
+
+	if($images) {
+		for ($i=0; $i < count($cats); $i++) { 
+			$cats[$i]['images']= array();		
+			foreach ($images as $image) {
+				if($image['category'] == $cats[$i]['name']) {					
+					array_push($cats[$i]['images'], $image);
+				}
+			}
+		}
+	}
+	
+	if(!$base_image) {
+		$base_image = array(
+			src => '',
+			id => ''
+		);
 	}
 
 ?>
 
 <div id="pms">
 	<div class="overlay-gallery">
+		<div class="base">
+			<h3>Imagem base:</h3>
+			<div class="image">
+				<img src="<?= $base_image['src'] ?>" alt="">
+				<input type="hidden" name="base-image" id="base-image" value="<?= $base_image['id'] ?>">
+				<button class="button choose-base-image" data-imageid="<?= $base_image['id'] ?>">Escolher Imagem</button>
+			</div>
+		</div>
+		<hr>
 		<div class="categories">
 			<?php 
 				foreach ($cats as $cat) {
 					?>
-					<div class="cat toggled-container">
+					<div class="cat toggled-container cat-<?= $cat['name']?>">
 						<div class="topbar">
+							<input type="hidden" name="categories[]" value="<?= $cat['name']?>">
 							<div class="handle"><span class="dashicons dashicons-sort"></div>
 							<p class="label">
 								<b>
@@ -46,19 +85,42 @@
 							</p>
 							<div class="remove-wrapper">
 								<button class="remove"  type="button"><span class="dashicons dashicons-trash"></span></button>
-							</div>
-							<div class="toggler-wrapper">
-								<input type="checkbox" class="toggler" name="cat-enabled[]" value="<?= $cat['name'] ?>" <?= $cat['enabled'] ? 'checked' : '' ?> >
-							</div>
+							</div>						
 						</div>
-						<div class="content <?= !$cat['enabled'] ? 'hidden' : '' ?>">
-							<button class="button" class="add-image" data-cat="<?= $cat['name'] ?>">Adicionar Imagem</button>
+						<div class="content">
+							<div class="images">
+								<?php if($cat['images']): ?>
+									<?php foreach ($cat['images'] as $image): ?>
+										<div class="image">
+											<div class="title">
+												<span><b><?= $image['name']?></b></span>
+											</div>
+											<div class="thumbnail-wrapper">
+												<img src="<?= $image['thumbnail']?>" alt="">
+											</div>
+											<div class="image-wrapper">
+												<img src="<?= $image['src']?>" alt="">
+											</div>
+											<input type="hidden" name="images-name[]" value="<?= $image['name']?>">
+											<input type="hidden" name="images-src[]" value="<?= $image['src']?>">
+											<input type="hidden" name="images-category[]" value="<?= $cat['name']?>">
+											<input type="hidden" name="images-thumbnail[]" value="<?= $image['thumbnail']?>">											
+											<button class="remove-item">
+												<span class="dashicons dashicons-trash"></span>
+											</button>											
+										</div>
+									<?php endforeach; ?>
+								<?php else: ?>
+									<p><i>Nenhuma imagem cadastrada</i></p>
+								<?php endif; ?>
+							</div>
+							<button class="button add-image" data-cat="<?= $cat['name'] ?>">Adicionar Imagem</button>
 						</div>
 					</div>
-					<?php
+				<?php
 				}
 			?>
-		</div>
+		</div>		
 		<div class="new-cat-wrapper">
 			<label for="new-category">Nova categoria:</label>
 			<input type="text" id="new-category"> 
