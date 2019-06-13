@@ -1,5 +1,5 @@
 <?php
-	$default_categories = get_option('pms_img-category', []);
+	$default_categories = get_option('pms_img-category', array());
 	// var_dump($post);
 	$hasGallery = get_post_meta($post->ID, 'pms_has-gallery', true);
 	$gallery = get_post_meta($post->ID, 'pms_gallery', true);
@@ -24,15 +24,17 @@
 	 * 	thumbnail: string
 	 * }
 	 */
-
-	function mapCategory($c)
-	{
-		$c = array(
-			name => $c,
-		);
-
-		return $c;
-	}
+	
+	 if(!function_exists('mapCategory')) {
+		 function mapCategory($c)
+		 {
+			 $c = array(
+				 name => $c,
+			 );
+	 
+			 return $c;
+		 }
+	 }
 
 	$cats = array_map("mapCategory", $default_categories);
 	if($categories) {
@@ -60,6 +62,7 @@
 ?>
 
 <div id="pms">
+	<input type="hidden" name="pms_gallery_form" value="true" />
 	<div class="overlay-gallery">
 		<div class="base">
 			<h3>Imagem base:</h3>
@@ -126,22 +129,12 @@
 			<input type="text" id="new-category"> 
 			<button class="button save" type="button" id="new-cat-button"><span class="dashicons dashicons-yes"></span></button>
 		</div>
-		<!-- <div class="image-wrapper">
-			<div class="image-preview"></div>
-			<div class="thumbnail"></div>
-			<input type="hidden" name="images[]">
-			<input type="hidden" name="thumbnails[]">
-		</div>
-		<div class="common-gallery toggled-container">
-			<input type="checkbox" class="toggler">
-			<div class="content">
-			</div>
-		</div> -->
 	</div>
 	<hr>
 	<div class="gallery">
-		<h3>Galeria</h3><br>
+		<h3>Galeria</h3>
 		<small>Outras imagens do produto, sem sobreposição:</small>
+		<br>
 		<div class="gallery-images">
 		<?php if($gallery): ?>
 			<?php foreach ($gallery as $gImage): ?>
@@ -158,9 +151,4 @@
 		</div>
 		<button class="button add-gallery-images">Adicionar Imagens</button>
 	</div>
-	<!-- <div class='image-preview-wrapper'>
-		<img id='image-preview' src='' width='100' height='100' style='max-height: 100px; width: 100px;'>
-	</div>
-	<input id="upload_image_button" type="button" class="button" value="<?php _e( 'Upload image' ); ?>" />
-	<input type='hidden' name='image_attachment_id' id='image_attachment_id' value=''> -->
 </div>

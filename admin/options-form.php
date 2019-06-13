@@ -29,8 +29,8 @@
 
 	$post_types = get_post_types( $args, $output ); 	
 
-	$value = get_option('pms_posttype', []);
-	$categories = get_option('pms_img-category', []);
+	$value = get_option('pms_posttype', array());
+	$categories = get_option('pms_img-category', array());
 	$gallery = get_option('pms_img-gallery', null);
 ?>
 

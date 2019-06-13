@@ -6,9 +6,9 @@ module.exports = {
     admin: [
         './admin/scripts/index.js'
     ],
-    // client: [
-    //     './styles/index.scss'
-    // ]
+    client: [
+        './client/scripts/index.js'
+    ]
   },
   // entry: './scripts/index.js',
   mode: 'development',

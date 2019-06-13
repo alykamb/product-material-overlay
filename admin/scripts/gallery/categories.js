@@ -3,18 +3,20 @@ export default function($) {
 
 	const addCategory = (category) => {
 		const element = `
-			<div class="cat toggled-container">
+			<div class="cat toggled-container cat-${category}">
 				<div class="topbar">
-					<div class="handle"><span class="dashicons dashicons-sort"></div>
 					<input type="hidden" name="categories[]" value="${category}">
+					<div class="handle"><span class="dashicons dashicons-sort"></div>
 					<p class="label"><b>${category}</b></p>		
 					<div class="remove-wrapper">
 						<button class="remove"  type="button"><span class="dashicons dashicons-trash"></span></button>
 					</div>	
 				</div>
-					<div class="content">
-					<p><i>Nenhuma imagem cadastrada</i></p>
-					<button class="button" class="add-image" data-cat="${category}">Adicionar Imagem</button>
+				<div class="content">
+					<div class="images">
+						<p><i>Nenhuma imagem cadastrada</i></p>
+					</div>
+					<button class="button add-image" data-cat="${category}">Adicionar Imagem</button>
 				</div>
 			</div>`;
 		$('.overlay-gallery .categories').append(element);

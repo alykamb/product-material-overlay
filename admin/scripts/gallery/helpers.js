@@ -16,6 +16,11 @@ export const getImageFromMedia = (id, multiple=false) => {
 
 		file_frame.on('cancel', () => reject());
 
-		file_frame.on('select', () => resolve(file_frame.state().get('selection').first().toJSON()));
+		file_frame.on('select', () => {
+			if(multiple) {
+				return resolve(file_frame.state().get('selection').toJSON());
+			}
+			return resolve(file_frame.state().get('selection').first().toJSON());
+		});
 	});
 };

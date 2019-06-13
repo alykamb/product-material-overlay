@@ -42,5 +42,6 @@ function do_stuff(){
   // $current_user = wp_get_current_user();
   // ...
 	require_once('admin/index.php');
+	require_once('client/index.php');
 }
 

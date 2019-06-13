@@ -1,0 +1,30 @@
+#pms-image {
+  position: relative; }
+  #pms-image img {
+    width: 100%; }
+    #pms-image img:not(.base-image) {
+      position: absolute; }
+
+#pms-material-selection .thumbnails {
+  display: flex;
+  flex-wrap: wrap; }
+  #pms-material-selection .thumbnails .thumbnail {
+    border: 1px solid #999;
+    border-radius: 50%;
+    overflow: hidden;
+    width: 40px;
+    height: 40px;
+    margin: 10px;
+    cursor: pointer;
+    position: relative;
+    box-sizing: border-box; }
+    #pms-material-selection .thumbnails .thumbnail, #pms-material-selection .thumbnails .thumbnail:focus {
+      outline: none; }
+    #pms-material-selection .thumbnails .thumbnail:hover, #pms-material-selection .thumbnails .thumbnail.selected {
+      border: 2px solid white; }
+    #pms-material-selection .thumbnails .thumbnail img {
+      transform: scale(2);
+      position: absolute;
+      top: 0;
+      left: 0; }
+

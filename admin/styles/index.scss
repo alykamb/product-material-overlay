@@ -28,16 +28,21 @@
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-around;
+		margin: 1em;
+		
 
 		& > div {
-			width: 200px;
+			width: 150px;
+			height: 150px;
 			margin: 10px;
 			display: flex;
+			justify-content: center;
 			flex-direction: column;
+			align-items: center;		
 
 			img {
-				max-width: 200px;
-				max-height: 200px;
+				max-width: 150px;
+				max-height: 112px;
 				border: 1px solid #ccc;
 				margin: 10px;
 			}
@@ -189,5 +194,44 @@ body.modal-open {
 		.button	{
 			margin: .5em;
 		}
+	}	
+}
+
+#pms .gallery-images {
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+
+	.image {
+		width: 140px;
+		height: 140px;
+		border: 1px solid #ccc;
+		margin: 1em;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		position: relative;
+
+		img {
+			max-width: 100%;
+			max-height: 100%;
+		}
+		.gallery-item-remove {
+			position: absolute;
+			top: 0;
+			right: 0;
+			background-color: #900;
+			color: white;
+			border: none;
+			border-radius: 50%;
+			height: 30px;
+			width: 30px;
+			cursor: pointer;
+	
+			&:hover {
+				background-color: #a55;
+			}
+		}
 	}
+
 }

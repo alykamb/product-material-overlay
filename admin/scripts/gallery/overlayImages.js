@@ -9,11 +9,7 @@ export default function ($, modal) {
 				<div class="pms-content-wrapper">
 					<div class="topbar">
 						<h3>Selecione as imagens:</h3>
-						<p><small>Thumbnail é a imagem pequena com o material. A imagem grande que sobrepõe a base na galeria é o botão "Selecionar Imagem"</small></p>
-					</div>
-					<div className="name">
-						<label for="material-name"><b>Nome do material:</b></label><br/>
-						<input type="text" id="material-name"/>
+						<p><small>Thumbnail é a imagem pequena com o material. A imagem grande que sobrepõe a base na galeria é o botão "Escolher Imagem"</small></p>
 					</div>
 					<div class="images-wrapper">
 						<div class="thumbnail">
@@ -36,6 +32,7 @@ export default function ($, modal) {
 
 		modalContent.find('.add-image').on('click', async () => {
 			const attachment = await getImageFromMedia();
+			images.name = attachment.title;
 			modalContent.find('.image img').attr('src', attachment.url);
 			images.image = attachment;
 
@@ -47,10 +44,7 @@ export default function ($, modal) {
 			images.thumbnail = attachment;
 		});
 
-		modalContent.find('.accept').on('click', () => {
-			images.name = modalContent.find('#material-name').val();
-			onSave(images);
-		});
+		modalContent.find('.accept').on('click', () => onSave(images));
 
 		modalContent.find('.cancel').on('click', () => {
 			modal.closeModal();
@@ -84,7 +78,7 @@ export default function ($, modal) {
 		$(`.cat-${cat} .content .images`).append(img);
 	};
 
-	$('.categories .images').on('click', '.remove-item', function(e) {
+	$('.categories').on('click', '.images .remove-item', function(e) {
 		e.preventDefault();
 		e.stopPropagation();
 		

@@ -16,8 +16,9 @@ export default function($) {
 		`);
 
 		$('.gallery-images').append(img);
-	}
+	};
 
+	// console.log('here');
 	$('.add-gallery-images').on('click', async (e) => {
 		e.preventDefault();
 		e.stopPropagation();
@@ -25,12 +26,12 @@ export default function($) {
 		const images = await getImageFromMedia(null, true);
 
 		images.forEach(image => newGalleryImage(image));
-	})
+	});
 
 	$('.gallery').on('click', '.image .gallery-item-remove', function(e) {
 		e.preventDefault();
 		e.stopPropagation();
 
 		$(this).parent().remove();
-	})
+	});
 }

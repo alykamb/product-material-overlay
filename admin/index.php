@@ -1,14 +1,18 @@
 <?php
 
-add_menu_page( 
-	'Produtos PMS', 
-	'Produtos PMS', 
-	'manage_options', 
-	'pms', 
-	'product_menu', 
-	'dashicons-screenoptions',
-	69
-);
+function pms_admin_menu() {
+	add_menu_page( 
+		'Produtos PMS', 
+		'Produtos PMS', 
+		'manage_options', 
+		'pms', 
+		'product_menu', 
+		'dashicons-screenoptions',
+		69
+	);
+}
+
+add_action( 'admin_menu', 'pms_admin_menu' );
 
 function product_menu() {
 	wp_enqueue_script( 'jquery-ui-sortable' );
@@ -18,7 +22,7 @@ function product_menu() {
 
 function add_gallery()
 {	
-	$post_types = get_option('pms_posttype', []);
+	$post_types = get_option('pms_posttype', array());
 
 	add_meta_box(
 		'pms_gallery',           // Unique ID
@@ -40,13 +44,21 @@ function gallery_content($post) {
 
 add_action('add_meta_boxes', 'add_gallery');
 
-function pms_enqueue_scripts() {  
+function pms_admin_enqueue_scripts() {  
 		wp_register_style( 'pms_admin_style', plugins_url() . '/product-material-selection' . '/admin/style.css', false);
 		wp_enqueue_style( 'pms_admin_style' );
 
     wp_enqueue_script( 'pms_admin_script', plugins_url() . '/product-material-selection' . '/admin/script.js' );
 }
-add_action( 'admin_enqueue_scripts', 'pms_enqueue_scripts' );
+add_action( 'admin_enqueue_scripts', 'pms_admin_enqueue_scripts' );
+
+function pms_enqueue_scropts() {
+		wp_register_style( 'pms_client_style', plugins_url() . '/product-material-selection' . '/client/style.css', false);
+		wp_enqueue_style( 'pms_client_style' );
+
+    wp_enqueue_script( 'pms_client_script', plugins_url() . '/product-material-selection' . '/client/script.js' );
+}
+add_action( 'wp_enqueue_scripts', 'pms_enqueue_scropts' );
 
 function save_pms_meta( $post_id, $post, $update ) {
 
@@ -55,14 +67,13 @@ function save_pms_meta( $post_id, $post, $update ) {
      * preferably as a class property, rather than in each function that needs it.
      */
 		$post_type = get_post_type($post_id);
-		$post_types = get_option('pms_posttype', []);
+		$post_types = get_option('pms_posttype', array());
 
 		
 		// var_dump('a5fe', $post_type, $post_types, $post, $update);
     // // If this isn't a 'book' post, don't update it.
 		// if ( "book" != $post_type ) return;
-		if(in_array($post_type, $post_types)) {
-			$_POST  = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+		if(in_array($post_type, $post_types) &&  isset($_POST['pms_gallery_form'])) {
 			if ( isset( $_POST['base-image'] ) ) {
 				update_post_meta($post_id, 'pms_base_image', sanitize_text_field( $_POST['base-image']));
 			} else {
@@ -72,7 +83,7 @@ function save_pms_meta( $post_id, $post, $update ) {
 			if ( isset( $_POST['categories'] ) ) {
 				update_post_meta($post_id, 'pms_categories', $_POST['categories']);
 			} else {
-				delete_post_meta($post_id, 'pms_categories');
+				update_post_meta($post_id, 'pms_categories', array());
 			}
 
 			$images = array();
@@ -105,21 +116,7 @@ function save_pms_meta( $post_id, $post, $update ) {
 				delete_post_meta($post_id, 'pms_gallery');
 			}
 		}
-    // // - Update the post's metadata.
-
-    // if ( isset( $_POST['book_author'] ) ) {
-    //     update_post_meta( $post_id, 'book_author', sanitize_text_field( $_POST['book_author'] ) );
-    // }
-
-    // if ( isset( $_POST['publisher'] ) ) {
-    //     update_post_meta( $post_id, 'publisher', sanitize_text_field( $_POST['publisher'] ) );
-    // }
-
-    // // Checkboxes are present if checked, absent if not.
-    // if ( isset( $_POST['inprint'] ) ) {
-    //     update_post_meta( $post_id, 'inprint', TRUE );
-    // } else {
-    //     update_post_meta( $post_id, 'inprint', FALSE );
-    // }
 }
 add_action( 'save_post', 'save_pms_meta', 10, 3 );
+
+

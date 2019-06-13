@@ -1,0 +1,44 @@
+#pms-image {
+	position: relative;
+
+	img {
+		&:not(.base-image) {
+			position: absolute;
+		}
+		width: 100%;
+	}
+}
+
+#pms-material-selection {
+	.thumbnails {
+		display: flex;
+		flex-wrap: wrap;
+		.thumbnail {
+			border:1px solid #999;
+			border-radius: 50%;
+			overflow: hidden;
+			width: 40px;
+			height: 40px;
+			margin: 10px;
+			cursor: pointer;
+			position: relative;
+			box-sizing: border-box;
+			
+
+			&, &:focus {
+				outline: none;
+			}
+
+			&:hover, &.selected {
+				border: 2px solid white;
+			}
+
+			img {
+				transform: scale(2);
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+		}
+	}
+}
