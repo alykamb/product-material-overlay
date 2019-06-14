@@ -142,16 +142,21 @@
 		?>
 		<div id="pms-material-selection">
 			<?php foreach($cats as $cat):?>
+				<?php if(sizeof($cat['images'])>0): ?>
 				<div class="cat">
 					<h4><?= $cat['name']?></h4>
 					<div class="thumbnails">
 						<?php foreach($cat['images'] as $img):?>
-							<button class="thumbnail  <?= $selected_images[$cat['name']]['src'] == $img['src'] ? 'selected' : '' ?>" data-cat="<?= $cat['name'] ?>" data-src="<?= $img['src'] ?>" data-name="<?= $img['name'] ?>">
-								<img src="<?= $img['thumbnail']?>" alt="">
-							</button>
+							<div class="thumb-wrapper">
+								<span><?= $img['name'] ?></span>
+								<button class="thumbnail  <?= $selected_images[$cat['name']]['src'] == $img['src'] ? 'selected' : '' ?>" data-cat="<?= $cat['name'] ?>" data-src="<?= $img['src'] ?>" data-name="<?= $img['name'] ?>">
+									<img src="<?= $img['thumbnail']?>" alt="">
+								</button>
+							</div>
 						<?php endforeach;?>
 					</div>
 				</div>
+				<?php endif; ?>
 			<?php endforeach;?>
 		</div>
 		<?php

@@ -28,7 +28,7 @@ jQuery(document).ready(($) => {
 
 		$('.thumbnails').on('click', '.thumbnail:not(.selected)', function(e) {
 			const $this = $(this);
-			$this.siblings().removeClass('selected');
+			$this.parents('.thumbnails').find('.thumbnail').removeClass('selected');
 			$this.addClass('selected');
 			if ($this.hasClass('none')) {
 				setMaterial($this.data('cat'), '');
