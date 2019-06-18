@@ -1,26 +1,36 @@
 import '../styles/index.scss';
 
 jQuery(document).ready(($) => {	
+	const materials = {};
 	if ($('#pms-material-selection').length) {
 
-		const setMaterial = (cat, src) => {
+		const setMaterial = (cat, src, name) => {
 			if ($('#pms-image').length) {
+				materials[cat]=name;
 				$(`.image-${cat}`).attr('src', src);
 			}
 		}
 
 		const setUrl = () => {
 			let query = '';
-			$('.thumbnail.selected').each((i, el) => {
-				const cat = $(el).data('cat');
-				const name = $(el).data('name');
+			Object.keys(materials).forEach((k, i) => {
 				if (i == 0) {
 					query += '?';
 				} else {
 					query += '&';
 				}
-				query += `${cat}=${name}`;
+				query += `${k}=${materials[k]}`;
 			});
+			// $('.thumbnail.selected').each((i, el) => {
+			// 	const cat = $(el).data('cat');
+			// 	const name = $(el).data('name');
+			// 	if (i == 0) {
+			// 		query += '?';
+			// 	} else {
+			// 		query += '&';
+			// 	}
+			// 	query += `${cat}=${name}`;
+			// });
 
 			const src = window.location.origin + window.location.pathname;
 			history.replaceState(null, document.title, src + query);
@@ -31,9 +41,9 @@ jQuery(document).ready(($) => {
 			$this.parents('.thumbnails').find('.thumbnail').removeClass('selected');
 			$this.addClass('selected');
 			if ($this.hasClass('none')) {
-				setMaterial($this.data('cat'), '');
+				setMaterial($this.data('cat'), '', '');
 			} else {
-				setMaterial($this.data('cat'), $this.data('src'));
+				setMaterial($this.data('cat'), $this.data('src'), $this.data('name'));
 			}			
 			setUrl();
 		});
