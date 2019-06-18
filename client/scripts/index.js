@@ -26,7 +26,7 @@ jQuery(document).ready(($) => {
 			history.replaceState(null, document.title, src + query);
 		}
 
-		$('.thumbnails').on('click', '.thumbnail:not(.selected)', function(e) {
+		$('.thumbnails').on('click', '.thumbnail:not(.selected)', function() {
 			const $this = $(this);
 			$this.parents('.thumbnails').find('.thumbnail').removeClass('selected');
 			$this.addClass('selected');
@@ -36,6 +36,19 @@ jQuery(document).ready(($) => {
 				setMaterial($this.data('cat'), $this.data('src'));
 			}			
 			setUrl();
+		});
+
+		$('.gallery-thumb').on('click', function() {
+			const $this = $(this);
+			$this.siblings().removeClass('selected');
+			$this.addClass('selected');
+
+			if($this.data('base')) {
+				$('.gallery-image-wrapper').removeClass('active');
+			} else {
+				$('.gallery-image-wrapper').addClass('active');
+				$('.gallery-image-wrapper .gallery-image').attr('src', $this.children().attr('src'));
+			}
 		});
 
 		if(!window.location.search) {

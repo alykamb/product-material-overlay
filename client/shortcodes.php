@@ -70,6 +70,9 @@
 		ob_start();
 		?>
 		<div id="pms-image">
+			<div class="gallery-image-wrapper">
+				<img class="gallery-image" src="" alt="">
+			</div>
 			<?php foreach($cats as $cat):?>
 				<?php 
 					if(!$selected_images[$cat['name']]) {
@@ -98,6 +101,7 @@
 		global $categories;
 		global $base_image_id;
 		global $base_image;
+		global $gallery;
 		global $selected_images;
 	
 
@@ -110,9 +114,13 @@
 		if(!$categories) {
 			$categories = get_post_meta($post->ID, 'pms_categories', true);		
 		}
-
+		
 		if($categories) {
 			$cats = array_map("mapCategory", $categories);
+		}
+		
+		if(!$gallery) {
+			$gallery = get_post_meta($post->ID, 'pms_gallery', true);					
 		}
 
 		if($images && $cats) {
@@ -163,4 +171,36 @@
 		return ob_get_clean();
 	}
 	add_shortcode( 'pms_material_selection', 'pms_material_selection_func' );
-?>
+
+	function pms_gallery_selection_func( $atts ){
+		global $post;
+		global $gallery;		
+
+		if(!$gallery) {
+			$gallery = get_post_meta($post->ID, 'pms_gallery', true);					
+		}
+
+		if(!$base_image) {
+			if(!$base_image_id) {
+				$base_image_id = get_post_meta($post->ID, 'pms_base_image', true);
+			}
+			if($base_image_id) {
+				$base_image = array(
+					src => wp_get_attachment_url($base_image_id ),
+					id => $base_image_id
+				);
+			}
+		}
+		
+		ob_start();
+		?>
+		<div id="pms-gallery-selection">
+			<button class="gallery-thumb selected" data-base="true"><img src="<?= $base_image['src']?>" alt=""></button>
+			<?php foreach ($gallery as $g_img): ?>
+				<button class="gallery-thumb"><img src="<?= $g_img['src']?>" alt=""></button>
+			<?php endforeach; ?>	
+		</div>
+		<?php
+		return ob_get_clean();
+	}
+	add_shortcode( 'pms_gallery_selection', 'pms_gallery_selection_func' );
