@@ -54,15 +54,17 @@
 
 		$queries = array();
 		parse_str($_SERVER['QUERY_STRING'], $queries);
-		foreach ($queries as $key => $value) {
-			foreach($cats as $cat) {
-				if($cat['name'] !== $key) {
-					continue;
-				}
-				foreach($cat['images'] as $img) {
-					if($img['name'] === $value) {
-						$selected_images[$cat['name']] = $img;
+		if($queries && $cats) {
+			foreach ($queries as $key => $value) {
+				foreach($cats as $cat) {
+					if($cat['name'] !== $key) {
 						continue;
+					}
+					foreach($cat['images'] as $img) {
+						if($img['name'] === $value) {
+							$selected_images[$cat['name']] = $img;
+							continue;
+						}
 					}
 				}
 			}
@@ -73,14 +75,16 @@
 			<div class="gallery-image-wrapper">
 				<img class="gallery-image" src="" alt="">
 			</div>
-			<?php foreach($cats as $cat):?>
-				<?php 
-					if(!$selected_images[$cat['name']]) {
-						$selected_images[$cat['name']] = $cat['images'][rand ( 0 , sizeof($cat['images'])-1 )];	
-					}
-				?>
-				<img class="image-<?= $cat['name']?>" src="<?= $selected_images[$cat['name']]['src']?>" alt="">
-			<?php endforeach;?>
+			<?php if($cats): ?>
+				<?php foreach($cats as $cat):?>
+					<?php 
+						if(!$selected_images[$cat['name']]) {
+							$selected_images[$cat['name']] = $cat['images'][rand ( 0 , sizeof($cat['images'])-1 )];	
+						}
+					?>
+					<img class="image-<?= $cat['name']?>" src="<?= $selected_images[$cat['name']]['src']?>" alt="">
+				<?php endforeach;?>
+			<?php endif;?>
 			<img class="base-image" src="<?= $base_image['src'] ?>" alt="">			
 		</div>
 		<?php
@@ -149,23 +153,27 @@
 		ob_start();
 		?>
 		<div id="pms-material-selection">
-			<?php foreach($cats as $cat):?>
-				<?php if(sizeof($cat['images'])>0): ?>
-				<div class="cat">
-					<h4><?= $cat['name']?></h4>
-					<div class="thumbnails">
-						<?php foreach($cat['images'] as $img):?>
-							<div class="thumb-wrapper">
-								<span><?= $img['name'] ?></span>
-								<button class="thumbnail  <?= $selected_images[$cat['name']]['src'] == $img['src'] ? 'selected' : '' ?>" data-cat="<?= $cat['name'] ?>" data-src="<?= $img['src'] ?>" data-name="<?= $img['name'] ?>">
-									<img src="<?= $img['thumbnail']?>" alt="">
-								</button>
-							</div>
-						<?php endforeach;?>
+			<?php if($cats): ?>
+				<?php foreach($cats as $cat):?>
+					<?php if(sizeof($cat['images'])>0): ?>
+					<div class="cat">
+						<h4><?= $cat['name']?></h4>
+						<div class="thumbnails">
+							<?php if($cat['images']): ?>
+									<?php foreach($cat['images'] as $img):?>
+										<div class="thumb-wrapper">
+											<span><?= $img['name'] ?></span>
+											<button class="thumbnail  <?= $selected_images[$cat['name']]['src'] == $img['src'] ? 'selected' : '' ?>" data-cat="<?= $cat['name'] ?>" data-src="<?= $img['src'] ?>" data-name="<?= $img['name'] ?>">
+												<img src="<?= $img['thumbnail']?>" alt="">
+											</button>
+										</div>
+									<?php endforeach;?>
+								<?php endif; ?>
+						</div>
 					</div>
-				</div>
-				<?php endif; ?>
-			<?php endforeach;?>
+					<?php endif; ?>
+				<?php endforeach;?>
+			<?php endif;?>
 		</div>
 		<?php
 		return ob_get_clean();
@@ -196,9 +204,11 @@
 		?>
 		<div id="pms-gallery-selection">
 			<button class="gallery-thumb selected" data-base="true"><img src="<?= $base_image['src']?>" alt=""></button>
-			<?php foreach ($gallery as $g_img): ?>
-				<button class="gallery-thumb"><img src="<?= $g_img['src']?>" alt=""></button>
-			<?php endforeach; ?>	
+			<?php if($gallery): ?>
+				<?php foreach ($gallery as $g_img): ?>
+					<button class="gallery-thumb"><img src="<?= $g_img['src']?>" alt=""></button>
+				<?php endforeach; ?>	
+			<?php endif; ?>
 		</div>
 		<?php
 		return ob_get_clean();
